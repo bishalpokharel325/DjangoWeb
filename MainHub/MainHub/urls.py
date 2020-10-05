@@ -23,3 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('news.urls'))
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+admin.site.site_header="Web Application"
+admin.site.site_title="News Paper Website"
+admin.site.index_title="Admin Panel"
+

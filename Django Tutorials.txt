@@ -1,0 +1,237 @@
+Dhan sir Django Tutorials from class and Videos:
+
+
+
+Video no 1: Installation and Introduction:
+
+1) Installation:
+1) GO to djangoproject.com and click download 
+2) TO install globally pip install wala link copy and paste and run
+
+2) To create new Django project:
+1) jaha januparne ho folder tyaha jane
+2) command prompt kholne and >>>django-admin startproject djangoapplication   >>enter garne
+
+
+3) yo django8pm chai main hub ho.... hami run garna chutai command use garxau
+   hub ho.. yesko aru branches heru huncha
+4) tyo manage.py vanne file cha... documentation is most importaant vanera ni sadhya nahune kura
+ho documentation padnai parxa hamle
+5) go to documentation and get started>> tya manage.py le k garxa deko cha
+i) mysite, manage.py, mysite/__init__.py,mysite/settings.py,mysite/urls.py,mysite/asgi.py,mysite/wsgi.py
+6) MTV: dekhine kura view.... model and template
+7) manage.py chune kura haina tyo nachalaune
+8) server start garna:
+
+python manage.py runserver
+
+9)sqlite vane file automatically aucha: aba server run vayo so
+127.0.0.1:8000 ma run vayo
+tyo site ma jane browser ma
+
+10) aja aru file heru chodum: setting ra url vanne file ho aile bujne
+
+11) setting file ma: 
+i) import garyo ra path rakhyoo 
+ii) harek programming ma security key huncha csrf in php .... debug mode true hunchalive majada false huncha
+iii) allowed host server ma jada matra huncha
+iv) installer app: k k install chan vanera dekhaucha k k automatically chalisakyo???
+naya project banauda add garne
+v) middle ware vaneko middle mabascha request ra response ko bich ma basera kam garxa
+form verification heru
+vi) template database heru password validation ko kura aucha langauage aucha static files heru tya rakhne image heru
+
+12) url pattern: url: uniform resource locator, request garda k dekhaune vanne kura ho url
+i) url.py ma jane: tya admin vanne
+ii) /admin garda admin ko site load vayo..
+iii) kasai kasai le tye file banauchan tyo nagarne chutai banaune
+
+13) server run garna 
+python manage.py runserver
+
+migration heru aile confuse huncha
+
+
+14)  hamile applications gareko chaina 
+15) Web application chai banauna k garne???? documentation ma herau
+/tutorial01 mai deko cha kasari garne vanera
+
+16) to start new application:
+
+i) parent ko folder (not django ko folder) ma jane
+ii) py manage.py startapp news
+iii) news vitra migration huncha tya model admin init heru huncha
+iv) auta kura confuse nagarne.. jaile application banauda register garnu parxa
+
+17) to register new application:
+
+i) aru le chai setting ma gayera "news" garxa... installed app ma setting ma garxa aru herule
+ii) but practise tyesto nagarne.. ma chai k vanchu vane
+iii) apps vane file ma class cha newsConfig(AppConfig): garda 'news' aucha re
+iv) Installed app vitra yesto lekhne:
+"news.apps.NewsConfig' vannu ra news vannu autai kura ho yesari garda ramro manincha
+
+18) command heru aile samma: 
+i) project banauna: django-admin startproject django8pm
+ii) server run garna: py manage.py runproject
+iii) new app create garna py manage.py startapp news and register in setting>installed app
+iv) register garna: go to setting>intalled app> "news.apps.NewsConfig" yo vannu ra "news" matra vannu autai ho
+
+
+19) aba garnu parne kura URL:
+view ko kura herne:
+20) NEXT sTEPS:
+
+i) django8pm ko folder ko urls ma from django.urls import path and include ni thapne
+ii) urlpatterns = [
+    path("",include("news.urls"))]
+path("",include("news.urls")) yo thapne 
+iii) make new file urls.py in the new app we created
+tyo file ma this code
+
+from django.urls import path
+from . import views
+urlpatterns=[
+    path("",views.index)
+]
+
+iv) views.py ma yesto lekhne:
+
+from django.shortcuts import render,HttpResponse
+
+# Create your views here.
+def index(request):
+    return HttpResponse("<h1>Hello Django Project</h1>")
+
+
+
+v) main system django8pm chalaudainau tyo hub matra ho hami news ko chai chalauchau
+
+vi) /home handa index page kholna
+path("home",views.index)
+
+vii) /about handa about page dekhauna:
+
+path("about",about.index)
+
+then view ma function banaune:
+def index(request):
+return HttpResponse("<h1> hello About Us </h1>")
+
+
+
+
+urls vanne documentation padera aune:::
+
+
+
+
+STATIC:
+1)))))))1st step in setting.py in parent
+
+STATIC_URL = '/static/'
+MEDIA_ROOT=os.path.join(BASE_DIR,'media')
+MEDIA_URL="/media/"
+
+2)))))2nd step in parent urls.py
+
+
+from django.conf import settings
+from django.conf.urls.static import static
+
++static(settings.MEDIA_URL,document_root=settings.MEDIA_URL)
+
+3))) 3rd step: Home page ma
+
+i) html mathi {% load static %}
+ii) link ma: <link rel="stylesheet" href="{% static 'style.css' %}">
+
+
+
+
+
+
+ADMIN:
+
+#Creating Super user and editing Admin page:
+
+1) py manage.py migrate
+2) py manage.py createsuperuser
+3) urls.py from parent folder ma:
+
+admin.site.site_header="Django Header"
+admin.site.site_title="Title "
+admin.site.index_title="Index Title"
+
+
+
+Create MODEL for dynamic Content:
+
+1) model.py ma:
+
+from ckeditor.fields import RichTextField
+# Create your models here.
+class Slider(models.Model):
+    title=models.CharField(max_length=150,unique=True)
+    description=RichTextField()
+    image=models.ImageField(upload_to="Slider")
+    status=models.BooleanField(default=0)
+    created_at=models.DateField()
+    slug=models.CharField(max_length=150,unique=True)
+
+#name of object as title
+def _str_(self):
+	return self.title
+
+
+2) Register the slider in admin.py:
+
+# admin ma list jasta ko tyestai dekhauna
+
+from .models import Slider
+# Register your models here.
+admin.site.register(Slider)
+
+
+# ramro banauna date heru serach filter garne banauna
+
+from .models import Slider
+# Register your models here.
+# admin.site.register(Slider)
+@admin.register(Slider)
+class adminSlider(admin.ModelAdmin):
+    list_display = ['title','status']
+    search_fields = ['title','status']
+    date_hierarchy = 'created_at'
+    prepopulated_fields = {'slug':['title']}
+    list_per_page = 2
+
+
+Slider ko data display in the page:
+
+1) views.py ma 
+
+from .models import Slider
+
+# Create your views here.
+def index(request):
+    data={'sliderData':slider.objects.all()}
+    return render(request,"frontend/pages/home.html",data)
+
+
+2) home.html ma
+
+{% for slider in sliderData %}
+{{slider.title}}
+{{slider.description}}
+<img src="{{slider.image.url}}">
+{% endfor %}
+
+
+
+
+
+
+
+
+
